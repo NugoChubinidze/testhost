@@ -2,17 +2,17 @@ document.getElementById('fetch-hashes').addEventListener('click', async () => {
     try {
         const response = await fetch('/api/getWineHashes');
         const wineHashes = await response.json();
-        const qrCodesContainer = document.getElementById('qr-codes');
-        qrCodesContainer.innerHTML = '';
-
+        const detailsContainer = document.getElementById('details-container');
         wineHashes.forEach((hash, index) => {
             const qrImageSrc = `/api/generateQR?data=${encodeURIComponent(`https://testhost-1-56o2.onrender.com/data.html#${hash}`)}&filename=wine_hash_${index + 1}`;
-            const qrCodeDiv = document.createElement('div');
-            qrCodeDiv.className = 'wine-info';
-            qrCodeDiv.innerHTML = `
-                <img class="qr-code" src="${qrImageSrc}" alt="QR code for wine hash ${index + 1}">
-                <button onclick="displayWineDetails('${hash}')">Show Details</button>
-            `;
+
+            detailsContainer.innerHTML = `
+            <h1>Wine Details</h1>
+            <p>Name: ${wineDetails[0]}</p>
+            <p>Date: ${wineDetails[1]}</p>
+            <p>Manufacturer: ${wineDetails[2]}</p>
+            <p>Type: ${wineDetails[3]}</p>
+        `;
             qrCodesContainer.appendChild(qrCodeDiv);
         });
     } catch (error) {
