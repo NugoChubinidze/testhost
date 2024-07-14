@@ -13,7 +13,7 @@ async function displayWineDetails(hash) {
         let c = 0;
         let max = wineDetails.length;
         data.forEach(dt => {
-            dt.innerHTML = wineDetails[c];
+            dt.innerHTML += wineDetails[c];
             c++;
             if (c == max) {
                 brake;
