@@ -6,7 +6,7 @@ document.getElementById('fetch-hashes').addEventListener('click', async () => {
         qrCodesContainer.innerHTML = '';
 
         wineHashes.forEach((hash, index) => {
-            const qrImageSrc = `/api/generateQR?data=${encodeURIComponent(`http://localhost:3000/#${hash}`)}&filename=wine_hash_${index + 1}`;
+            const qrImageSrc = `/api/generateQR?data=${encodeURIComponent(`https://testhost-1-56o2.onrender.com/#${hash}`)}&filename=wine_hash_${index + 1}`;
             const qrCodeDiv = document.createElement('div');
             qrCodeDiv.className = 'wine-info';
             qrCodeDiv.innerHTML = `
