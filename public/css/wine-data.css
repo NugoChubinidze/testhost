@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#wine-details { 
+    border-radius: 8%;
+    width: 400px;
+    height: 600px;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.blockchain {
+    width: 200px;
+    height: 200px;
+    border-radius: 10%;
+}
+
+.header {
+    font-weight: 800;
+    font-size: 2.2em;
+    font-family: "Kanit", sans-serif;
+}
+
+.powered {
+    padding-top: 30px;
+}
