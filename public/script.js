@@ -28,7 +28,7 @@ async function displayWineDetails(hash) {
     }
 
     try {
-        const response = await fetch(`/api/getWineDetails?hash=${hash}`);
+        const response = await fetch(`/api/getWineDetails/data.html?hash=${hash}`);
         const wineDetails = await response.json();
         console.log("Wine details:", wineDetails); // Log the response to check structure
 
