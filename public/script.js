@@ -6,7 +6,7 @@ document.getElementById('fetch-hashes').addEventListener('click', async () => {
         qrCodesContainer.innerHTML = '';
 
         wineHashes.forEach((hash, index) => {
-            const qrImageSrc = `/api/generateQR?data=${encodeURIComponent(`https://testhost-1-56o2.onrender.com/#${hash}`)}&filename=wine_hash_${index + 1}`;
+            const qrImageSrc = `/api/generateQR?data=${encodeURIComponent(`https://testhost-1-56o2.onrender.com/data.html#${hash}`)}&filename=wine_hash_${index + 1}`;
             const qrCodeDiv = document.createElement('div');
             qrCodeDiv.className = 'wine-info';
             qrCodeDiv.innerHTML = `
@@ -28,7 +28,7 @@ async function displayWineDetails(hash) {
     }
 
     try {
-        const response = await fetch(`/api/getWineDetails/data.html?hash=${hash}`);
+        const response = await fetch(`/api/getWineDetails?hash=${hash}`);
         const wineDetails = await response.json();
         console.log("Wine details:", wineDetails); // Log the response to check structure
 
