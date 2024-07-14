@@ -3,15 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Wine Details</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Wine Hash QR Codes</h1>
-        <button id="fetch-hashes">Fetch Wine Hashes</button>
-        <div id="details-container"></div>
+    <div id="wine-details"></div>
 
-    </div>
-    <script src="script.js"></script>
+    <script>
+        async function displayWineDetails(hash) {
+            const detailsContainer = document.getElementById('wine-details');
+            if (!detailsContainer) {
+                console.error('Details container not found!');
+                return; // Exit if no container found
+            }
+
+            try {
+                const response = await fetch(`/api/getWineDetails?hash=${hash}`);
+                const wineDetails = await response.json();
+                console.log("Wine details:", wineDetails);
+
+                detailsContainer.innerHTML = `
+                    <h1>Wine Details</h1>
+                    <p>Name: ${wineDetails[0]}</p>
+                    <p>Date: ${wineDetails[1]}</p>
+                    <p>Manufacturer: ${wineDetails[2]}</p>
+                    <p>Type: ${wineDetails[3]}</p>
+                `;
+            } catch (error) {
+                console.error('Error fetching wine details:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                displayWineDetails(hash);
+            }
+        });
+    </script>
 </body>
 </html>
