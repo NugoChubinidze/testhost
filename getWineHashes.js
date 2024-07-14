@@ -3,19 +3,39 @@ const { ethers } = require('ethers');
 const { InfuraProvider } = require('@ethersproject/providers');
 require('dotenv').config();
 
-// Contract ABI (Application Binary Interface)
 const abi = [
     {
-        "inputs": [],
-        "name": "getAllWineHashes",
-        "outputs": [
+        "inputs": [
             {
-                "internalType": "bytes32[]",
-                "name": "",
-                "type": "bytes32[]"
+                "internalType": "string",
+                "name": "_description",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_date",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_manufacturer",
+                "type": "string"
+            },
+            {
+                "internalType": "string",
+                "name": "_wineType",
+                "type": "string"
             }
         ],
-        "stateMutability": "view",
+        "name": "registerWine",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
+            }
+        ],
+        "stateMutability": "nonpayable",
         "type": "function"
     },
     {
@@ -51,10 +71,23 @@ const abi = [
         ],
         "stateMutability": "view",
         "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getAllWineHashes",
+        "outputs": [
+            {
+                "internalType": "bytes32[]",
+                "name": "",
+                "type": "bytes32[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
     }
 ];
 
-const contractAddress = '0xD039115CD115A53C1481Da1800f94cf89612CCF6';
+const contractAddress = '0xfc4E141d708Be4192c7b302B8CF950b3Dc0F6b86';
 
 // Provider (using a public Ethereum RPC endpoint, e.g., Infura)
 const provider = new InfuraProvider('sepolia', '0b2745c0581a43aba9a132e2975cd118');
@@ -72,13 +105,10 @@ function generateQR(data, filename) {
         console.error(`Error generating QR Code for ${data}:`, err);
     });
 }
-
 async function getWineHashes() {
-    const contract = new ethers.Contract(contractAddress, abi, provider);
-
     try {
         const wineHashes = await contract.getAllWineHashes();
-        console.log(wineHashes);
+        console.log('Wine Hashes:');
         wineHashes.forEach((hash, index) => {
             console.log(`Hash ${index + 1}: ${hash}`);
             generateQR(hash, `wine_hash_${index + 1}.png`);
@@ -88,22 +118,27 @@ async function getWineHashes() {
     }
 }
 
-// QR process
-(async function main() {
-    // const data = `http://localhost:3000/${}`;
-    await generateQR(data);
-    const hashCode = hashData(data);
-    await storeHashOnBlockchain(data, hashCode);
-
-    // Simulate reading from a generated QR image
-    const scannedData = await readQRCode('qr_code.png');  // Use the file you saved
-    const isVerified = await verifyQRCode(scannedData);
-    console.log("Verification status:", isVerified ? "Verified" : "Not Verified");
-
-    if (isVerified) {
-        console.log("Redirecting to the website...");
-        open('https://youtube.com');
+async function getWineDetails(wineHash) {
+    try {
+        const wine = await contract.getWine(wineHash);
+        console.log(`Wine details for hash ${wineHash}:`);
+        console.log(`Description: ${wine[0]}`);
+        console.log(`Date: ${wine[1]}`);
+        console.log(`Manufacturer: ${wine[2]}`);
+        console.log(`Type: ${wine[3]}`);
+    } catch (error) {
+        console.error(`Error fetching wine details for hash ${wineHash}:`, error);
     }
-})();
+}
+
+async function registerWine(description, date, manufacturer, wineType) {
+    try {
+        const tx = await contract.registerWine(description, date, manufacturer, wineType);
+        await tx.wait();
+        console.log('Wine registered successfully.');
+    } catch (error) {
+        console.error('Error registering wine:', error);
+    }
+}
 
 getWineHashes();

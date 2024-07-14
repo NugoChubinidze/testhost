@@ -64,3 +64,8 @@ button:hover {
     margin: 5px 0;
 } 
 
+.info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

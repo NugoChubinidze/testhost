@@ -10,8 +10,10 @@ document.getElementById('fetch-hashes').addEventListener('click', async () => {
             const qrCodeDiv = document.createElement('div');
             qrCodeDiv.className = 'wine-info';
             qrCodeDiv.innerHTML = `
+            <div class="info">
                 <img class="qr-code" src="${qrImageSrc}" alt="QR code for wine hash ${index + 1}">
-                <button onclick="displayWineDetails('${hash}')">Show Details</button>
+                <button onclick="displayWineDetails('${hash}')">დეტალები</button>
+            </div>
             `;
             qrCodesContainer.appendChild(qrCodeDiv);
         });
