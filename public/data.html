@@ -4,96 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wine Details</title>
+    <link rel="stylesheet" href="css/wine-data.css">
     <style>
-        body {
-            font-family: Arial, sans-serif; /* Sets the font for the page */
-            background-color: #f4f4f9; /* Light grey background for a minimalistic look */
-            margin: 40px;
-            color: #333; /* Dark grey text for readability */
-        }
-        .container {
-            width: 80%;
-            margin: 0 auto; /* Centers the container */
-        }
-        .wine {
-            background-color: #fff; /* White background for each wine block */
-            padding: 20px;
-            margin-bottom: 20px; /* Spacing between each wine block */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for 3D effect */
-        }
-        .brandName {
-            font-size: 24px;
-            color: #700; /* Dark red color for the wine name, mimics wine color */
-        }
-        .details {
-            margin-top: 10px;
-        }
-        .detail {
-            font-size: 16px;
-        }
-        .description {
-            margin-top: 10px;
-            font-style: italic; /* Italicized description for a touch of style */
-        }
+
     </style>
 </head>
 <body>
-    <div id="wine-details"></div>
-
-    <div class="container">
-        <div class="wine">
-            <div class="brandName"></div>
-            <div class="details">
-                <div class="age"></div>
-                <div class="species"></div>
-            </div>
-            <div class="description"></div>
-        </div>
-        <!-- Repeat for more wines -->
+    <div id="wine-details">
+        <h1>Wine Details</h1>
+        <p class="data"></p>
     </div>
-
-    <script>
-        async function displayWineDetails(hash) {
-            const detailsContainer = document.getElementById('wine-details');
-            const wineContainer = document.getElementsByClassName('wine')
-            if (!detailsContainer) {
-                console.error('Details container not found!');
-                return; // Exit if no container found
-            }
-
-            try {
-                const response = await fetch(`/api/getWineDetails?hash=${hash}`);
-                const wineDetails = await response.json();
-                console.log("Wine details:", wineDetails);
-
-                detailsContainer.innerHTML = `
-                    <h1>Wine Details</h1>
-                    <p>Name: ${wineDetails[0]}</p>
-                    <p>Date: ${wineDetails[1]}</p>
-                    <p>Manufacturer: ${wineDetails[2]}</p>
-                    <p>Type: ${wineDetails[3]}</p>
-                `;
-
-                wineContainer.innerHTML = `
-                    <div class="brandName">${wineDetails[2]}</div>
-                    <div class="details">
-                        <div class="age">${wineDetails[1]}</div>
-                        <div class="species">${wineDetails[3]}</div>
-                    </div>
-                    <div class="description">${wineDetails[0]}</div>
-                `
-            } catch (error) {
-                console.error('Error fetching wine details:', error);
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const hash = window.location.hash.substring(1);
-            if (hash) {
-                displayWineDetails(hash);
-            }
-        });
-    </script>
+    <script src="js/wineData.js"></script>
 </body>
 </html>
 
